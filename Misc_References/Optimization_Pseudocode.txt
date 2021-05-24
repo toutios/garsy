@@ -1,0 +1,52 @@
+
+This is the pseudocode for the optimization algorithm used to fine tune gesture inputs to reduce the amount of error.
+
+This code can be used with either the new tree cluster generation or the cluster generation which looks only at cluster
+distances. The gist of the program is to basically compare the generated parameter curves and the observved parameters
+curves for all 8 parameters, and then tweaking the input values to reduce the error between the two.
+
+Main Function:
+    Load in the contourdata.mat and all the other variables and files that is needed for the standard vocal tract simualtion,
+    such as the clusters, etc.
+
+    As for the initial word gestures, you want to start off with all the information that you would use in the vocal tract
+    simualtion, and you would add in information on the start and end times of the actual observed parameters, along with file
+    that it is in.
+    
+    
+    In addition, you want to load in the actual parameter data that is observed from subjects speaking the word you want to
+    optimize. This should be in contourdata.mat.
+
+    There is some preprocessing that you have to do with actual parameter data. The problem is that the observed data is
+    given in frams of ~12 ms per frame (83.333 frames per second), but the generated parameters give you 1 frame per ms.
+
+    The solution is to "draw" out the actual parameter data curve, and then sample it again at 1 frame per ms. To ensure that
+    accurate samples are taken, weighted averages are taken between the nearest two frames of the observed data.
+
+    OPTIONAL: You can also further preprocess the actual parameter data. The actual data is very noisy. To smooth them out, 
+    I would recommending taking the k-nearest neighbors with k ~ 5-20.
+    
+    
+    Optimization Function
+        The Optimization function takes in an error function, processed actual parameter data, word data, and gesture data. 
+        
+        The Optimization function can also be customized, you can either optimize over all inputs in the gestures, or simply 
+        optimize the start, and end times, or the targets and stiffness, or any combination.
+        
+        While the error from the error function can still be optimized:
+            Loop through all the inputs in the gestures (the start and end times, the targets, and the stiffness)
+
+            On each of these inputs, you want to add/subtract a delta T. T can be adjusted as needed, generally you
+            can start with a large T and lower the size of T on subsquent iterations.
+
+                After adding/subtracting the T from one of the inputs, simulate the vocal tract on the new inputs and
+                get the error from the error function. If the new error is less than the current error, set the new error
+                to be the current error, and the inputs to be the inputs with that one adjustment.
+
+            If after iterating through all the inputs and adding/subtracting the T, the error has not yet been optimized,
+            either declare Optimization as finished, or lower the size of T.
+        
+        
+    Error function
+        The error function simply takes in the simulated parameter data and the processed actual parameter data, and returns
+        the sum of the squared errors.

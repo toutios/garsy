@@ -1,0 +1,32 @@
+span
+650
+0
+0
+0
+# The reading gestures program will ignore all shit that starts
+# With a hashtag
+# start, end, mouth part, degree, stiffness
+#
+0,149,1,0.2,30.7
+# TT crit alveolar
+#
+50,249,0,-1,23.03
+# LIPS clo
+#
+25,649,4,2.4, 7.08
+# TB wide pharyngeal
+#
+450,649,1,-1,23.03
+# TT clo alveolar
+#
+270,649,5,5,12.12
+# VEL wide
+#
+250,450,0,5.0,22.91
+# lips open for a
+#
+150,449,1,7.1,15.35
+# TT opens
+#
+0,269,5,-1,17.06
+# VEL closes

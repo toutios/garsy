@@ -1,0 +1,48 @@
+
+This is the pseudocode for the generation of linear clusters, and the Tree Structure that contains the Linear cluster
+
+For the cluster generation code below, keep in mind that the clusters and the arrays of data associated with each like
+the centers and forward map are wrapped in a Cluster object for easy read and write access. The Cluster objects themselves
+are wrapped in a ClusterNode object, which make setting parents and children for the tree structure convenient.
+
+Main Function:
+    Load in the contourdata.mat, which has all the data on parameters and constructions.
+
+    Initialize variables that you will need, such as the linearity criterion, which is the threshold for determining if
+    a cluster is linear or not (set to 0.1 on default), and also the minimum size for a cluster, (clusters smaller are
+    added to the tree regardless of linearity. Minimum size by default is 7, one more than the number of constrictions.
+
+    Populate w and z, which contain weights and parameters.
+
+    We initialize the Tree here, with an empty parent/root node to start with, using a queue.
+
+    Then we start up another queue, which contains clusters to be split/added onto the tree depending on their linearity.
+    The queue starts with all weights and corresping parameters being in a single cluster.
+
+
+    While the aforementioned queue is not empty:
+        Pop the current cluster in the queue, and test it for linearity.
+        Pop the current parent in the tree queue.
+
+        If it's linear (residuals in forward map is less than criterion), great! Stick it onto the tree, with the parent
+        as its parent, and you're done. Go on to the next item in the queue.
+
+        If it's not linear, then we have to do some testing. First we break up the cluster using the KMeans algorithm,
+        with k=2, we split the current cluster into two clusters according to their weights.
+
+            Then we look at the size of the remaining clusters. If either cluster's size is smaller than the minimum cluster
+            then we simply add the entire (non split) cluster into the tree, and make a note that we added a non-linear
+            cluster onto the tree. Go on to the next item in the queue
+
+            Ok, at this point, we should have a non linear cluster, which is split into two clusters, that are both larger
+            than the minimum cluster size. At this point, we will stick both clusters onto the tree, with the current parent
+            cluster as the parent for both. Then for both clusters, we will put them in both the queue with the clusters,
+            and also put the non-split-parent-cluster into the parent queue, so that as parents, and clusters are popped,
+            the corresponding parent will be given with its children, to build the tree properly.
+
+
+    Once the cluster queue is empty, the tree should be populated with clusters and their children, which can then be
+    saved into a .yaml file for easy access, and traversed simply by getting the .children attribute in each node.
+
+    Once the cluster generation is finished, on average with linearity criterion of 0.1, on average you'll get ~120-160
+    clusters, with 90-95% of the clusters being linear.

@@ -1,0 +1,30 @@
+span
+650
+0
+0
+0
+# SPAN
+# There is nothing to compare it to
+0, 150, 1, 0.2, 30.70
+# TT crit alveolar
+#
+50, 250, 0, -1, 23.03
+# LIPS clo
+#
+25, 650, 4, 6, 7.08
+# TB wide pharyngeal
+#
+450, 650, 1, -1, 23.03
+# TT clo alveolar
+#
+270, 650, 5, 10, 30.3
+# VEL wide
+#
+250, 450, 0, 9.5, 22.91
+# lips open for a
+#
+150, 450, 1, 6.5, 15.35
+# TT opens
+#
+0, 270, 5, -1, 17.06
+# VEL closes

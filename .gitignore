@@ -6,6 +6,7 @@ contourdata_F_B.mat
 smcontourdata.mat
 .DS_Store
 workspace.xml
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

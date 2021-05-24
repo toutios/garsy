@@ -1,0 +1,5 @@
+anytree>=2.8.0
+pyyaml>=5.1
+scipy>=1.6.3
+numpy>=1.20
+matplotlib>=3.4.2
